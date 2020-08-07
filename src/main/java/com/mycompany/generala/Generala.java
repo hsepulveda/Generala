@@ -13,13 +13,10 @@ import java.util.Arrays;
  */
 public class Generala {
 
+    //Metodo modificado con programación funcional
     public static int chance(int d1, int d2, int d3, int d4, int d5) {
-        int total = 0;
-        total += d1;
-        total += d2;
-        total += d3;
-        total += d4;
-        total += d5;
+        int total = Arrays.asList(d1, d2, d3 ,d4, d5).stream()
+                                                        .reduce(0,Integer::sum);
         return total;
     }
 
@@ -239,9 +236,11 @@ public class Generala {
     }
     //Metodo adicional creado: thereIsRepetitiveDice que ve si hay valores repetidos
     public static boolean thereIsRepetitiveDice(int d1, int d2, int d3, int d4, int d5){
-        if (Arrays.asList(d1, d2, d3 ,d4, d5).stream().distinct().toArray().length==5){
+        if(Arrays.asList(d1, d2, d3 ,d4, d5).stream()
+                                            .distinct()
+                                            .toArray().length==5)
             return false;
-        }
+        
         return true;
     }
     //Metodo adicional creado: thereIsADice que ve si entre los dados está el valor
