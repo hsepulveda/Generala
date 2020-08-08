@@ -35,111 +35,62 @@ public class Generala {
     // '(int... dice)' es similar a tener public static int generala(int d1, int d2, int d3 , etc) pero permite realizar operaciones como -> for (int die : dice)
     //es una forma de decir que el metodo puede aceptar 1 o más parametros de tipo int ... lista de parametros dinamicos.
     public static int generala(int... dice) {
-        if(areAllTheSame(dice)){
+        if (areAllTheSame(dice)) {
             return 50;
         }
         return 0;
     }
+
     // Metodo adicional en la refactorización de metodo generala a programación funcional.
-    public static boolean areAllTheSame(int... dice){
-        if(Arrays.stream(dice).distinct().toArray().length==1){
+    public static boolean areAllTheSame(int... dice) {
+        if (Arrays.stream(dice).distinct().toArray().length == 1) {
             return true;
         }
         return false;
     }
-
+    // Metodo Ones, modificado para funcionar con programación funcional
     public static int ones(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 1) {
-            sum++;
-        }
-        if (d2 == 1) {
-            sum++;
-        }
-        if (d3 == 1) {
-            sum++;
-        }
-        if (d4 == 1) {
-            sum++;
-        }
-        if (d5 == 1) {
-            sum++;
-        }
-
-        return sum;
+        return addACertainNumber(d1, d2, d3, d4, d5, 1);
     }
-
+    
+    // Metodo twoss, modificado para funcionar con programación funcional
     public static int twos(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 2) {
-            sum += 2;
-        }
-        if (d2 == 2) {
-            sum += 2;
-        }
-        if (d3 == 2) {
-            sum += 2;
-        }
-        if (d4 == 2) {
-            sum += 2;
-        }
-        if (d5 == 2) {
-            sum += 2;
-        }
-        return sum;
+        return addACertainNumber(d1, d2, d3, d4, d5, 2);
     }
 
+    // Metodo threes, modificado para funcionar con programación funcional
     public static int threes(int d1, int d2, int d3, int d4, int d5) {
-        int s;
-        s = 0;
-        if (d1 == 3) {
-            s += 3;
-        }
-        if (d2 == 3) {
-            s += 3;
-        }
-        if (d3 == 3) {
-            s += 3;
-        }
-        if (d4 == 3) {
-            s += 3;
-        }
-        if (d5 == 3) {
-            s += 3;
-        }
-        return s;
-    }
+        return addACertainNumber(d1, d2, d3, d4, d5, 3);
 
+    }
+    
+    // Metodo fours, modificado para funcionar con programación funcional
     public int fours() {
-        int sum;
-        sum = 0;
-        for (int at = 0; at != 5; at++) {
-            if (dice[at] == 4) {
-                sum += 4;
-            }
-        }
-        return sum;
+        return addACertainNumber(4);
     }
 
+    // Metodo fives, modificado para funcionar con programación funcional
     public int fives() {
-        int s = 0;
-        int i;
-        for (i = 0; i < dice.length; i++) {
-            if (dice[i] == 5) {
-                s = s + 5;
-            }
-        }
-        return s;
+        return addACertainNumber(5);
     }
 
+    // Metodo sixes, modificado para funcionar con programación funcional
     public int sixes() {
-        int sum = 0;
-        for (int at = 0; at < dice.length; at++) {
-            if (dice[at] == 6) {
-                sum = sum + 6;
-            }
-        }
-        return sum;
+        return addACertainNumber(6);
+    }
+
+    //Método polimórfico creado para funcionar con metodos ones, twos y threes
+    private static int addACertainNumber(int d1, int d2, int d3, int d4, int d5, int target) {
+        return Arrays.asList(d1, d2, d3, d4, d5).stream()
+                .filter(e -> e == target)
+                .reduce(0, Integer::sum);
+    }
+
+    //Método polimórfico creado para funcionar con metodos fours, fives y sixes
+    private int addACertainNumber(int target) {
+        return Arrays.stream(this.dice)
+                .filter(e -> e == target)
+                .reduce(0, Integer::sum);
     }
 
     public static int score_pair(int d1, int d2, int d3, int d4, int d5) {
