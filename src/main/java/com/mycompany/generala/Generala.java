@@ -6,6 +6,7 @@
 package com.mycompany.generala;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -13,26 +14,38 @@ import java.util.Arrays;
  */
 public class Generala {
 
+    protected int[] dice;
+
+    public Generala(int d1, int d2, int d3, int d4, int _5) {
+        dice = new int[5];
+        dice[0] = d1;
+        dice[1] = d2;
+        dice[2] = d3;
+        dice[3] = d4;
+        dice[4] = _5;
+    }
+
     //Metodo modificado con programación funcional
     public static int chance(int d1, int d2, int d3, int d4, int d5) {
-        int total = Arrays.asList(d1, d2, d3 ,d4, d5).stream()
-                                                        .reduce(0,Integer::sum);
+        int total = Arrays.asList(d1, d2, d3, d4, d5).stream()
+                .reduce(0, Integer::sum);
         return total;
     }
 
     // '(int... dice)' es similar a tener public static int generala(int d1, int d2, int d3 , etc) pero permite realizar operaciones como -> for (int die : dice)
     //es una forma de decir que el metodo puede aceptar 1 o más parametros de tipo int ... lista de parametros dinamicos.
     public static int generala(int... dice) {
-        int[] counts = new int[6];
-        for (int die : dice) {
-            counts[die - 1]++;
-        }
-        for (int i = 0; i != 6; i++) {
-            if (counts[i] == 5) {
-                return 50;
-            }
+        if(areAllTheSame(dice)){
+            return 50;
         }
         return 0;
+    }
+    // Metodo adicional en la refactorización de metodo generala a programación funcional.
+    public static boolean areAllTheSame(int... dice){
+        if(Arrays.stream(dice).distinct().toArray().length==1){
+            return true;
+        }
+        return false;
     }
 
     public static int ones(int d1, int d2, int d3, int d4, int d5) {
@@ -95,17 +108,6 @@ public class Generala {
             s += 3;
         }
         return s;
-    }
-
-    protected int[] dice;
-
-    public Generala(int d1, int d2, int d3, int d4, int _5) {
-        dice = new int[5];
-        dice[0] = d1;
-        dice[1] = d2;
-        dice[2] = d3;
-        dice[3] = d4;
-        dice[4] = _5;
     }
 
     public int fours() {
@@ -227,28 +229,34 @@ public class Generala {
         }
         return 0;
     }
+
     //Metodo creado con la adición de los siguientes otros 2 metodos
     public static int largeStraight(int d1, int d2, int d3, int d4, int d5) {
-        if(thereIsRepetitiveDice(d1, d2, d3, d4, d5)||thereIsADice(d1, d2, d3, d4, d5, 1)){
+        if (thereIsRepetitiveDice(d1, d2, d3, d4, d5) || thereIsADice(d1, d2, d3, d4, d5, 1)) {
             return 0;
         }
         return 20;
     }
+
     //Metodo adicional creado: thereIsRepetitiveDice que ve si hay valores repetidos
-    public static boolean thereIsRepetitiveDice(int d1, int d2, int d3, int d4, int d5){
-        if(Arrays.asList(d1, d2, d3 ,d4, d5).stream()
-                                            .distinct()
-                                            .toArray().length==5)
+    public static boolean thereIsRepetitiveDice(int d1, int d2, int d3, int d4, int d5) {
+        if (Arrays.asList(d1, d2, d3, d4, d5).stream()
+                .distinct()
+                .collect(Collectors.toList())
+                .size() == 5) {
             return false;
-        
+        }
+
         return true;
     }
+
     //Metodo adicional creado: thereIsADice que ve si entre los dados está el valor
     //target
-    public static boolean thereIsADice(int d1, int d2, int d3, int d4, int d5, int target){
-        if (Arrays.asList(d1, d2, d3 ,d4, d5).contains(target)){
+    public static boolean thereIsADice(int d1, int d2, int d3, int d4, int d5, int target) {
+        if (Arrays.asList(d1, d2, d3, d4, d5).contains(target)) {
             return true;
         }
+
         return false;
     }
 
